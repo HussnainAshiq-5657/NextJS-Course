@@ -7,7 +7,7 @@ function AddUser() {
   const [email, setEmail] = useState('');
 
  async function addUser() {
-    let response = await fetch('http://localhost:3001/api/user', {
+    let response = await fetch('http://localhost:3000/api/user', {
       method: 'POST',
       body: JSON.stringify( {name, age, email }),
     });

@@ -16,7 +16,7 @@ function Update() {
   }, []);
 
   async function getUsersDetails() {
-    let data = await fetch(`http://localhost:3001/api/user/${userId}`);
+    let data = await fetch(`http://localhost:3000/api/user/${userId}`);
     data = await data.json();
     setName(data.result.name);
     setAge(data.result.age);
@@ -24,7 +24,7 @@ function Update() {
   }
 
   async function updateUser() {
-    let result = await fetch(`http://localhost:3001/api/user/${userId}`, {
+    let result = await fetch(`http://localhost:3000/api/user/${userId}`, {
       method: 'PUT',
       body: JSON.stringify({ name, age, email }),
     });
