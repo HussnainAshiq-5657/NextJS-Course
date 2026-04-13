@@ -1,30 +1,45 @@
 'use client';
-import { useState } from 'react';
+import { useParams } from 'next/navigation';
+import { useEffect, useState } from 'react';
 
-function AddUser() {
+function Update() {
+  const params = useParams();
+  const userId = params.userId;
+  console.log(userId);
+
   const [name, setName] = useState('');
   const [age, setAge] = useState('');
   const [email, setEmail] = useState('');
 
- async function addUser() {
-    let response = await fetch('http://localhost:3001/api/user', {
-      method: 'POST',
-      body: JSON.stringify( {name, age, email }),
-    });
-    response = await response.json();
-    if(response.success){
-        alert("User Added SuccessFully")
-    }else{
-        alert("User Not Added")
-    }
-    console.log(response);
+  useEffect(() => {
+    getUsersDetails();
+  }, []);
+
+  async function getUsersDetails() {
+    let data = await fetch(`http://localhost:3001/api/user/${userId}`);
+    data = await data.json();
+    setName(data.result.name);
+    setAge(data.result.age);
+    setEmail(data.result.email);
   }
 
+  async function updateUser() {
+    let result = await fetch(`http://localhost:3001/api/user/${userId}`, {
+      method: 'PUT',
+      body: JSON.stringify({ name, age, email }),
+    });
+    result = await result.json();
+    if (result.success) {
+      alert('Update User SuccessFully');
+    } else {
+      alert('Please try with Correct Information.');
+    }
+  }
   return (
     <>
       <div className=" my-10 ml-10">
         <div className="flex flex-col gap-10 w-1/2 mx-auto p-10 justify-center items-center">
-          <h1 className="text-3xl text-red-600 font-bold">Add New User</h1>
+          <h1 className="text-3xl text-red-600 font-bold">Update User Details</h1>
           <input
             placeholder="Enter Your Name"
             value={name}
@@ -45,7 +60,7 @@ function AddUser() {
           />
           <div className="flex justify-center items-center">
             <button
-              onClick={addUser}
+              onClick={updateUser}
               className="text-center w-fit px-4 py-2 bg-blue-500 hover:bg-blue-800 transition duration-300 rounded-xl cursor-pointer"
             >
               Add User
@@ -57,4 +72,4 @@ function AddUser() {
   );
 }
 
-export default AddUser;
+export default Update;

@@ -14,3 +14,32 @@ export async function GET(request, { params }) {
     { status: 200 }
   );
 }
+
+export async function PUT(request, { params }) {
+  console.log('PUT API HIT');
+  const resolvedParams = await params;
+  let payload = await request.json();
+  payload.id = resolvedParams.id;
+  console.log(payload);
+  if (!payload.id || !payload.name || !payload.age || !payload.email) {
+    return NextResponse.json({ result: 'Error in Data Updating', success: false }, { status: 400 });
+  }
+
+  return NextResponse.json({ result: payload, success: true }, { status: 200 });
+}
+
+
+export async function DELETE(request, { params }) {
+  const { id } = await params;
+
+  console.log(id);
+
+  if (id) {
+    return NextResponse.json(
+      { result: 'User Deleted Successfully!', success: true },
+      { status: 200 }
+    );
+  } else {
+    return NextResponse.json({ result: 'User not deleted!', success: false }, { status: 400 });
+  }
+}
