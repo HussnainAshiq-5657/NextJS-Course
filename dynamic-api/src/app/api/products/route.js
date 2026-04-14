@@ -9,10 +9,18 @@ export async function GET() {
     await mongoose.connect(ConnectDB);
     data = await Product.find();
   } catch (error) {
-    data: {
-      success: false;
-    }
+    data = {
+      success: false,
+    };
   }
 
   return NextResponse.json({ result: data });
+}
+
+export async function POST(req) {
+  let payload = await req.json()
+  await mongoose.connect(ConnectDB);
+  let product = new Product(payload);
+  const request = await product.save();
+  return NextResponse.json({ request, success: true });
 }
