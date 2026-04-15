@@ -1,0 +1,1 @@
+export const ConnectDB = `mongodb+srv://${process.env.username}:${process.env.password}@cluster0.qztwctv.mongodb.net/StudentsDB?appName=Cluster0`;
